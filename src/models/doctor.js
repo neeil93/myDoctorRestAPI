@@ -46,7 +46,7 @@ const doctorSchema = new Schema({
       }],
       status: String,
   }],
-    : [Number, Number],
+  location: [Number, Number],
 });
 
 export const Doctor = mongoose.model('Doctor', doctorSchema);
