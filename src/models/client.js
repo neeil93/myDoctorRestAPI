@@ -5,6 +5,8 @@ const clientSchema = new Schema({
   firstName:  String,
   lastName: String,
   contactNumber: String,
+  password: String,
+  salt: String,
   email: String,
   gender: String,
 });
