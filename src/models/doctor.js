@@ -55,7 +55,7 @@ const doctorSchema = new Schema({
       ],
       status: String,
     },
-  ],
+  ]
 });
 
 export const Doctor = mongoose.model("Doctor", doctorSchema);

@@ -89,6 +89,11 @@ export const ErrorData = {
         data: "You are not authorized to perform this action."
       },
       {
+        status: "500",
+        message: "Internal server error.",
+        data: "Internal server error."
+      },
+      {
         status: "501",
         message: "Data Not Found.",
         data: "Data Not Found."
