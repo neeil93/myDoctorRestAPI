@@ -1,52 +1,61 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const doctorSchema = new Schema({
-  firstName:  String,
+  firstName: String,
   lastName: String,
   practicingFrom: Date,
   specializations: [Schema.Types.ObjectId],
+  imageUrl: String,
+  description: String,
   gender: {
-      type: String,
-      enum: ['MALE', 'FEMALE'],
-      default: 'MALE',
+    type: String,
+    enum: ["MALE", "FEMALE"],
+    default: "MALE",
   },
-  qualifications: [{
+  qualifications: [
+    {
       name: String,
       instituteName: String,
-      procurementYear: String
-  }],
+      procurementYear: String,
+    },
+  ],
   consultationFee: Number,
   consultationFeeCurrency: {
-      type: String,
-      enum: ['INR', 'USD'],
-      default: 'INR'
+    type: String,
+    enum: ["INR", "USD"],
+    default: "INR",
   },
-  services: [{name: String}],
-  reviews: [{
+  services: [{ name: String }],
+  reviews: [
+    {
       clientId: String,
       isAnonymous: Boolean,
       rating: String,
       review: String,
       isDoctorRecommended: Boolean,
-      data: Date
-  }],
-  experience: [
-      {
-          hospitalName: String,
-          yearsWorked: Number,
-          role: String
-      }
-  ],
-  availableSlots: [{
       date: Date,
-      time: [{
+    },
+  ],
+  experience: [
+    {
+      hospitalName: String,
+      yearsWorked: Number,
+      role: String,
+    },
+  ],
+  availableSlots: [
+    {
+      date: Date,
+      time: [
+        {
           startTime: String,
-          endTime: String
-      }],
+          endTime: String,
+        },
+      ],
       status: String,
-  }],
-    : [Number, Number],
+    },
+  ],
 });
 
-export const Doctor = mongoose.model('Doctor', doctorSchema);
+export const Doctor = mongoose.model("Doctor", doctorSchema);
