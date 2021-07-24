@@ -12,6 +12,16 @@ const doctorDetailsController = {
       res.status(502).send(errorResponse(502));
     }
   },
+  getDoctorDetailsById: async (req, res) => {
+    try {
+      const { doctorId } = req.params;
+      let result = await DoctorDetailsService.getDoctorDetailsById(doctorId);
+      res.status(200).send(successResponse(200, result));
+    } catch (error) {
+      console.error(error);
+      res.status(502).send(errorResponse(502));
+    }
+  },
   createDoctorDetails: async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
