@@ -9,6 +9,14 @@ const DoctorDetailsService = {
       });
     });
   },
+  getDoctorDetailsById: async (id) => {
+    return new Promise((resolve, reject) => {
+      Doctor.find({ _id: id }).exec((err, data) => {
+        if (err) reject(err);
+        resolve(data);
+      });
+    });
+  },
   createDoctorDetails: async (data, params, query) => {
     return new Promise((resolve, reject) => {
       const doctorDetails = new Doctor(data);

@@ -1,5 +1,6 @@
 export const Routes = {
   USER: "/v1/user",
-  DOCTOR_DETAILS_AND_SLOTS: "/v1/doctordetailsandslots",
+  DOCTOR_DETAILS_AND_SLOTS: "/v1/doctor",
   GET_ERROR: "/v1/errors",
+  PAYMENT: "/v1/payment",
 };
