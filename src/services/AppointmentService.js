@@ -2,7 +2,6 @@ import { errorResponse, successResponse } from "../cors/responseHandler.js";
 import { Appointment } from "../models/appointment.js";
 import { Client } from "../models/client.js";
 import { Doctor } from "../models/doctor.js";
-import { timeUtils } from "../utils/dateTimeUtils.js";
 
 const AppointmentService = {
   bookAppointment: async (data, params, query, req, res) => {
@@ -27,12 +26,7 @@ const AppointmentService = {
         .send(errorResponse(419));
       return;
     }
-    const startTime = timeUtils.parseTime(data.startTime);
-    const endTime = timeUtils.addMinutes(startTime, 30);
-    const appointment = new Appointment({
-      ...data,
-      endTime: timeUtils.formatTime(endTime),
-    });
+    const appointment = new Appointment(data);
     await appointment.save();
     res.status(201)
       .send(
