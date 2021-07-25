@@ -62,6 +62,22 @@ const userController = {
         res.status(502).send(errorResponse(502));
       });
   },
+  getProfile: (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(402).send(errorResponse(402));
+    }
+    let data = req.body;
+    let params = req.params;
+    let query = req.query;
+    
+    try {
+      UserService.getProfile(data, params, query, req, res);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send(errorResponse(500));
+    }
+  }
 };
 
 export default userController;

@@ -18,7 +18,11 @@ const userRoutes = (app) => {
     .route("/update")
     .post(UserValidation.update(), UserController.updateUser);
 
-  app.use(Routes.USER, checkToken, router);
+  router
+    .route("/profile")
+    .get(UserValidation.profile(), UserController.getProfile);
+  
+  app.use(Routes.USER, router);
 };
 
 export default userRoutes;

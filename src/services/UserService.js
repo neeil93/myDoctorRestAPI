@@ -1,4 +1,5 @@
 import { Client } from "../models/client.js";
+import { errorResponse } from "../cors/responseHandler.js";
 
 const UserService = {
   getUsers: async () => {
@@ -23,6 +24,22 @@ const UserService = {
       resolve(true);
     });
   },
+  getProfile: async (data, params, query, req, res) => {
+    let clientExists = false;
+    try {
+      clientExists = await Client.exists({ _id: query.id });
+    } catch (error) {
+      clientExists = false;
+    }
+    if (!clientExists) {
+      res.status(407)
+        .send(errorResponse(407));
+      return;
+    }
+    const client =  await Client.findById(query.id).exec();
+    res.status(200)
+      .send(client);
+  }
 };
 
 export default UserService;
