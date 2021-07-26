@@ -11,7 +11,6 @@ const AuthValidation = {
   signup: () => {
     return [
       check('firstName', 'firstName is Mandatory Parameter Missing.').not().isEmpty(),
-      check('lastName', 'lastName is Mandatory Parameter Missing.').not().isEmpty(),
       check('contactNumber', 'contactNumber is Mandatory Parameter Missing.').not().isEmpty(),
       check('gender', 'gender is Mandatory Parameter Missing.').not().isEmpty(),
       check('password', 'password is Mandatory Parameter Missing.').not().isEmpty(),

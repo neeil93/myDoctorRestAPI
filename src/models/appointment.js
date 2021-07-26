@@ -13,6 +13,8 @@ const appointmentSchema = new Schema({
     default: 'NOT_STARTED'
  },
   transactionDate: Date,
+  otherName: String,
+  otherMobileNumber: String,
 });
 
 export const Appointment = mongoose.model('Appointment', appointmentSchema);
