@@ -2,6 +2,10 @@ import { errorResponse, successResponse } from "../cors/responseHandler.js";
 import { Appointment } from "../models/appointment.js";
 import { Client } from "../models/client.js";
 import { Doctor } from "../models/doctor.js";
+import pkg from "mongoose";
+
+const {ObjectId} = pkg.Types;
+
 
 const AppointmentService = {
   bookAppointment: async (data, params, query, req, res) => {
@@ -38,7 +42,17 @@ const AppointmentService = {
       );
     return;
   },
-  getAppointments: async (data, params, query, req, res) => {
+  getAppointments: async (userId) => {
+    return new Promise((resolve, reject) => {
+      Appointment.find({ $or: [{ clientId: new ObjectId(userId) }, { doctorId: new ObjectId(userId) }] }).populate('doctorId', ['firstName', 'lastName', 'imageUrl']).populate('clientId', ['firstName', 'lastName', 'imageUrl']).exec(
+        (err, data) => {
+          if (err) reject(err);
+          resolve(data);
+        }
+      );
+    });
+  },
+  getAppointmentsOld: async (data, params, query, req, res) => {
     const perPage = 10;
     const page = data.page;
     const sort = data.sort;

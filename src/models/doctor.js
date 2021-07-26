@@ -4,8 +4,12 @@ const { Schema } = mongoose;
 const doctorSchema = new Schema({
   firstName: String,
   lastName: String,
+  contactNumber: String,
+  password: String,
+  salt: String,
+  email: String,
   practicingFrom: Date,
-  specializations: [Schema.Types.ObjectId],
+  specializations: [String],
   imageUrl: String,
   description: String,
   gender: {

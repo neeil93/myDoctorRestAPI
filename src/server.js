@@ -1,4 +1,5 @@
 import express from "express";
+import { Server } from "socket.io";
 import bodyParser from "body-parser";
 import chalk from "chalk";
 import cors from "cors";
@@ -7,6 +8,8 @@ import path from "path";
 import mongoose from 'mongoose';
 import configPKG from "config";
 import Routes from "./routes.js";
+import { createServer } from "http";
+import { Message } from "./models/chat.js";
 
 // if NODE_ENV value not define then dev value will be assign
 const mode = process.env.NODE_ENV || "dev";
@@ -14,6 +17,7 @@ const mode = process.env.NODE_ENV || "dev";
 const config = configPKG.get(mode);
 
 const app = express();
+const httpServer = createServer(app);
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
@@ -24,8 +28,33 @@ app.use(
 
 Routes(app);
 
+const options = {
+  path: '/chat-server/',
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"]
+  }  
+};
+const chatSessions = new Map();
+const io = new Server();
+io.attach(httpServer, options)
+io.on("connection", (socket) => {
+  console.log('a new connnection established', socket.id);
+  socket.on('register-session', (userId) => {
+    console.log('userId', userId);
+    chatSessions.set(userId, socket);
+  });
+  socket.on('message', async (message, receiverId) => {
+    const msg = new Message(message);
+    await msg.save();
+    const receiverSocket = chatSessions.get(receiverId);
+    if(receiverSocket)
+    receiverSocket.emit('message', message);
+  })
+});
+
 const start = () =>
-  app.listen(config.port, () => {
+  httpServer.listen(config.port, () => {
     console.log(chalk.yellow("......................................."));
     console.log(chalk.green(config.name));
     console.log(chalk.green(`Port:\t\t${config.port}`));

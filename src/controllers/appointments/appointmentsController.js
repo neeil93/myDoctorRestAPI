@@ -4,6 +4,19 @@ import { validationResult } from "express-validator";
 
 const appointmentsController = {
   getAppointments: async (req, res) => {
+    try {
+      let userId = req.params.userId;
+      if(!userId){
+          return res.status(400).send('Invalid userId.');
+      }
+      let result = await AppointmentService.getAppointments(userId);
+      res.status(200).send(successResponse(200, "", result));
+    } catch (error) {
+      console.error(error);
+      res.status(502).send(errorResponse(502));
+    }
+  },
+  getAppointmentsOld: async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(402).send(errorResponse(402));
