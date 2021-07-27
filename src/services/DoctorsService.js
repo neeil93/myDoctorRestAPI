@@ -8,6 +8,7 @@ const DoctorsService = {
       .limit(perPage)
       .skip(page ? perPage * (page-1) : 0)
       .sort(data.sort || {})
+      .populate('specialization')
       .exec(function (err, doctors) {
         Doctor.count().exec(function (errCount, count) {
           res.status(200).send({

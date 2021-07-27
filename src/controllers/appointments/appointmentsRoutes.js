@@ -5,8 +5,8 @@ import AppointmentValidation from "../../validation/AppointmentValidation.js";
 const router = Router();
 const appointmentsRoutes = (app) => {
   router
-    .route("/")
-    .get(AppointmentValidation.get(), AppointmentsController.getAppointments);
+    .route("/:userId")
+    .get(AppointmentsController.getAppointments);
 
   router
     .route("/")

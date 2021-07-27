@@ -2,8 +2,14 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const appointmentSchema = new Schema({
-  clientId:  Schema.Types.ObjectId,
-  doctorId: Schema.Types.ObjectId,
+  clientId:  {
+    type: Schema.Types.ObjectId,
+    ref: 'Client'
+  },
+  doctorId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Doctor'
+  },
   date: Date,
   startTime: String,
   endTime: String,
