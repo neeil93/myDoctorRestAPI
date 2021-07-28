@@ -12,6 +12,16 @@ const userController = {
       res.status(502).send(errorResponse(502));
     }
   },
+  getUserById: async (req, res) => {
+    try {
+      const { userId } = req.params;
+      let result = await UserService.getUserById(userId);
+      res.status(200).send(successResponse(200, result));
+    } catch (error) {
+      console.error(error);
+      res.status(502).send(errorResponse(502));
+    }
+  },
   createUser: async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -70,14 +80,14 @@ const userController = {
     let data = req.body;
     let params = req.params;
     let query = req.query;
-    
+
     try {
       UserService.getProfile(data, params, query, req, res);
     } catch (error) {
       console.error(error);
       res.status(500).send(errorResponse(500));
     }
-  }
+  },
 };
 
 export default userController;
