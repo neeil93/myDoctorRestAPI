@@ -8,8 +8,6 @@ const router = Router();
 const doctorDetailsRoutes = (app) => {
   router.route("/").get(doctorDetailsController.getDoctorDetails);
 
-  router.route("/:doctorId").get(doctorDetailsController.getDoctorDetailsById);
-
   router
     .route("/create")
     .post(
@@ -24,7 +22,9 @@ const doctorDetailsRoutes = (app) => {
       doctorDetailsController.updateDoctorDetails
     );
 
-  app.use(Routes.DOCTOR_DETAILS_AND_SLOTS, checkToken, router);
+  router.route("/:doctorId").get(doctorDetailsController.getDoctorDetailsById);
+
+  app.use(Routes.DOCTOR_DETAILS_AND_SLOTS, router);
 };
 
 export default doctorDetailsRoutes;
