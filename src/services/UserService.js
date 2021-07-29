@@ -10,6 +10,14 @@ const UserService = {
       });
     });
   },
+  getUserById: async (id) => {
+    return new Promise((resolve, reject) => {
+      Client.findOne({ _id: id }).exec((err, data) => {
+        if (err) reject(err);
+        resolve(data);
+      });
+    });
+  },
   createUser: async (data, params, query) => {
     return new Promise((resolve, reject) => {
       const user = new Client(data);
@@ -32,14 +40,12 @@ const UserService = {
       clientExists = false;
     }
     if (!clientExists) {
-      res.status(407)
-        .send(errorResponse(407));
+      res.status(407).send(errorResponse(407));
       return;
     }
-    const client =  await Client.findById(query.id).exec();
-    res.status(200)
-      .send(client);
-  }
+    const client = await Client.findById(query.id).exec();
+    res.status(200).send(client);
+  },
 };
 
 export default UserService;
