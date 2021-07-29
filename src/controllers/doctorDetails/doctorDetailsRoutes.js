@@ -24,7 +24,7 @@ const doctorDetailsRoutes = (app) => {
       doctorDetailsController.updateDoctorDetails
     );
 
-  app.use(Routes.DOCTOR_DETAILS_AND_SLOTS, checkToken, router);
+  app.use(Routes.DOCTOR_DETAILS_AND_SLOTS, router);
 };
 
 export default doctorDetailsRoutes;
