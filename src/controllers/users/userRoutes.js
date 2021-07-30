@@ -6,8 +6,6 @@ import UserValidation from "../../validation/UserValidation.js";
 
 const router = Router();
 const userRoutes = (app) => {
-  router.route("/:userId").get(UserController.getUserById);
-
   router.route("/").get(UserController.getUsers);
 
   router
@@ -21,6 +19,8 @@ const userRoutes = (app) => {
   router
     .route("/profile")
     .get(UserValidation.profile(), UserController.getProfile);
+
+  router.route("/:userId").get(UserController.getUserById);
 
   app.use(Routes.USER, router);
 };
