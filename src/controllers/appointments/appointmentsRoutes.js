@@ -9,6 +9,10 @@ const appointmentsRoutes = (app) => {
     .get(AppointmentsController.getAppointments);
 
   router
+    .route("/:appointmentId/details")
+    .get(AppointmentsController.getAppointmentDetails);
+
+  router
     .route("/")
     .post(AppointmentValidation.book(), AppointmentsController.bookAppointment);
 

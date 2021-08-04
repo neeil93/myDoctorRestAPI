@@ -4,7 +4,7 @@ import { Client } from "../models/client.js";
 import { Doctor } from "../models/doctor.js";
 import pkg from "mongoose";
 
-const {ObjectId} = pkg.Types;
+const { ObjectId } = pkg.Types;
 
 
 const AppointmentService = {
@@ -45,6 +45,16 @@ const AppointmentService = {
   getAppointments: async (userId) => {
     return new Promise((resolve, reject) => {
       Appointment.find({ $or: [{ clientId: new ObjectId(userId) }, { doctorId: new ObjectId(userId) }] }).populate('doctorId', ['firstName', 'lastName', 'imageUrl']).populate('clientId', ['firstName', 'lastName', 'imageUrl']).exec(
+        (err, data) => {
+          if (err) reject(err);
+          resolve(data);
+        }
+      );
+    });
+  },
+  getAppointmentDetails: async (appointmentId) => {
+    return new Promise((resolve, reject) => {
+      Appointment.findById(appointmentId).populate('doctorId', ['firstName', 'lastName', 'imageUrl']).populate('clientId', ['firstName', 'lastName', 'profileImage']).exec(
         (err, data) => {
           if (err) reject(err);
           resolve(data);

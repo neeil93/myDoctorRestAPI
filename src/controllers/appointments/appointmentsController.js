@@ -6,11 +6,21 @@ const appointmentsController = {
   getAppointments: async (req, res) => {
     try {
       let userId = req.params.userId;
-      if(!userId){
-          return res.status(400).send('Invalid userId.');
+      if (!userId) {
+        return res.status(400).send('Invalid userId.');
       }
       let result = await AppointmentService.getAppointments(userId);
       res.status(200).send(successResponse(200, "", result));
+    } catch (error) {
+      console.error(error);
+      res.status(502).send(errorResponse(502));
+    }
+  },
+  getAppointmentDetails: async (req, res) => {
+    try {
+      let appointmentId = req.params.appointmentId;
+      let result = await AppointmentService.getAppointmentDetails(appointmentId);
+      return res.status(200).send(successResponse(200, "", result));
     } catch (error) {
       console.error(error);
       res.status(502).send(errorResponse(502));
