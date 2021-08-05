@@ -58,6 +58,16 @@ const AppointmentService = {
         });
     });
   },
+  getAppointmentDetails: async (appointmentId) => {
+    return new Promise((resolve, reject) => {
+      Appointment.findById(appointmentId).populate('doctorId', ['firstName', 'lastName', 'imageUrl']).populate('clientId', ['firstName', 'lastName', 'profileImage']).exec(
+        (err, data) => {
+          if (err) reject(err);
+          resolve(data);
+        }
+      );
+    });
+  },
   getAppointmentsOld: async (data, params, query, req, res) => {
     const perPage = 10;
     const page = data.page;
