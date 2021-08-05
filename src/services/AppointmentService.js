@@ -4,8 +4,7 @@ import { Client } from "../models/client.js";
 import { Doctor } from "../models/doctor.js";
 import pkg from "mongoose";
 
-const {ObjectId} = pkg.Types;
-
+const { ObjectId } = pkg.Types;
 
 const AppointmentService = {
   bookAppointment: async (data, params, query, req, res) => {
@@ -13,11 +12,10 @@ const AppointmentService = {
     try {
       clientExists = await Client.exists({ _id: data.clientId });
     } catch (err) {
-      clientExists = false
+      clientExists = false;
     }
     if (!clientExists) {
-      res.status(418)
-        .send(errorResponse(418));
+      res.status(418).send(errorResponse(418));
       return;
     }
     try {
@@ -26,13 +24,15 @@ const AppointmentService = {
       doctorExists = false;
     }
     if (!doctorExists) {
-      res.status(419)
-        .send(errorResponse(419));
+      res.status(419).send(errorResponse(419));
       return;
     }
     const appointment = new Appointment(data);
+    console.log("appointment data is :");
+    console.log(data);
     await appointment.save();
-    res.status(201)
+    res
+      .status(201)
       .send(
         successResponse(
           201,
@@ -44,12 +44,18 @@ const AppointmentService = {
   },
   getAppointments: async (userId) => {
     return new Promise((resolve, reject) => {
-      Appointment.find({ $or: [{ clientId: new ObjectId(userId) }, { doctorId: new ObjectId(userId) }] }).populate('doctorId', ['firstName', 'lastName', 'imageUrl']).populate('clientId', ['firstName', 'lastName', 'imageUrl']).exec(
-        (err, data) => {
+      Appointment.find({
+        $or: [
+          { clientId: new ObjectId(userId) },
+          { doctorId: new ObjectId(userId) },
+        ],
+      })
+        .populate("doctorId", ["firstName", "lastName", "imageUrl"])
+        .populate("clientId", ["firstName", "lastName", "imageUrl"])
+        .exec((err, data) => {
           if (err) reject(err);
           resolve(data);
-        }
-      );
+        });
     });
   },
   getAppointmentsOld: async (data, params, query, req, res) => {
@@ -62,7 +68,10 @@ const AppointmentService = {
       .skip(page ? perPage * (page - 1) : 0)
       .sort(sort || {})
       .exec(function (err, appointments) {
-        Appointment.countDocuments({ clientId }).exec(function (errCount, count) {
+        Appointment.countDocuments({ clientId }).exec(function (
+          errCount,
+          count
+        ) {
           res.status(200).send({
             data: appointments,
             page: page,
