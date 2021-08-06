@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "cross-env NODE_ENV=dev nodemon --experimental-json-modules --inspect=5001 --config nodemon.js src/server.js",
     "dev": "cross-env NODE_ENV=dev nodemon --experimental-json-modules --inspect=5001 --config nodemon.js src/server.js",
     "production": "cross-env NODE_ENV=production  nodemon --inspect=5001 --config nodemon.js src/server.js"
   },
